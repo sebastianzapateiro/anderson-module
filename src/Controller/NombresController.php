@@ -167,7 +167,7 @@ class NombresController extends ControllerBase
 
 
     /** @var CrudNombresService $servicio */
-    $servicio =     $this->crud;;
+    $servicio =     $this->crud;
     $data = $servicio->eliminar($id);
 
     return $this->redirect('nombres.cargar');
