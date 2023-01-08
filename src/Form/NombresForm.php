@@ -5,9 +5,41 @@ namespace Drupal\nombres\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\nombres\Services\CrudNombresService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class NombresForm extends FormBase
 {
+
+
+
+  /**
+   * Llamada al servicio.
+   */
+  protected $crud;
+
+  /**
+   * Crea una nueva instancia del servicio.
+   * @param CrudNombresService $crud
+   */
+  public function __construct( CrudNombresService $crud)
+  {
+    $this->crud = $crud;
+  }
+
+  /**
+   * @param ContainerInterface $container
+   * @return NombresForm|static
+   */
+  public static function create(ContainerInterface $container)
+  {
+    return new static(
+      $container->get('nombres.crudNombres')
+    );
+  }
+
+
+
+
 
 
   /**
@@ -92,13 +124,13 @@ class NombresForm extends FormBase
 
     if ($valores['submit']==='Agregar'){
       /** @var CrudNombresService $servicio */
-      $servicio = \Drupal::service('nombres.crudNombres');
+      $servicio = $this->crud;
       $data = $servicio->guardar($values);
     }else{
 
 
       /** @var CrudNombresService $servicio */
-      $servicio = \Drupal::service('nombres.crudNombres');
+      $servicio = $this->crud;
       $data = $servicio->actualizar($valores['nombre_id'],$values);
       $form_state->setRedirect('nombres.cargar');
       \Drupal::messenger()->addMessage('Se ha actualizado correctamente el registro');
