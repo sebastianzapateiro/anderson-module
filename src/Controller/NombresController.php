@@ -52,7 +52,7 @@ class NombresController extends ControllerBase
   {
 
     /** @var CrudNombresService $servicio */
-    $servicio = \Drupal::service('nombres.crudNombres');
+    $servicio = $this->crud;
     $data = $servicio->cargar();
 
 
@@ -73,7 +73,7 @@ class NombresController extends ControllerBase
   {
 
     /** @var CrudNombresService $servicio */
-    $servicio = \Drupal::service('nombres.crudNombres');
+    $servicio =     $this->crud;;
     $data = $servicio->cargarPorId($id);
 
 
@@ -106,7 +106,7 @@ class NombresController extends ControllerBase
   {
 
     /** @var CrudNombresService $servicio */
-    $servicio = \Drupal::service('nombres.crudNombres');
+    $servicio =     $this->crud;;
     $data = $servicio->cargarPorId($id);
 
     $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\NombresForm', $data);
@@ -130,11 +130,11 @@ class NombresController extends ControllerBase
 
 
     /** @var CrudNombresService $servicio */
-    $servicio = \Drupal::service('nombres.crudNombres');
+    $servicio =     $this->crud;;
     $data = $servicio->cargarPorId($id);
 
 //    /** @var CrudNombresService $servicio */
-//    $servicio = \Drupal::service('nombres.crudNombres');
+//    $servicio =     $this->crud;;
 //    $data = $servicio->eliminar($id);
 
 
@@ -167,7 +167,7 @@ class NombresController extends ControllerBase
 
 
     /** @var CrudNombresService $servicio */
-    $servicio = \Drupal::service('nombres.crudNombres');
+    $servicio =     $this->crud;;
     $data = $servicio->eliminar($id);
 
     return $this->redirect('nombres.cargar');
