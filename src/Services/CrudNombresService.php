@@ -5,11 +5,10 @@ namespace Drupal\nombres\Services;
 class CrudNombresService
 {
 
-
   /**
    * Obtener todos los datos de la tabla
    */
-  public function cargar()
+  public function cargar(): array
   {
 
     $query = \Drupal::database()->select('nombres', 'n');
@@ -32,7 +31,7 @@ class CrudNombresService
   /**
    * Obtener dato por id servicio.
    */
-  public function cargarPorId($id)
+  public function cargarPorId($id): array
   {
 
     $query = \Drupal::database()->select('nombres', 'n');
@@ -55,8 +54,10 @@ class CrudNombresService
 
   /**
    * Guardar servicio.
+   * @throws \Exception
    */
-  public function guardar($values){
+  public function guardar($values): void
+  {
     \Drupal::database()->insert('nombres')
       ->fields($values)->execute();
   }
@@ -65,7 +66,8 @@ class CrudNombresService
   /**
    * Actualizar servicio.
    */
-  public function actualizar($id,$value){
+  public function actualizar($id,$value): void
+  {
     \Drupal::database()->update('nombres')
       ->fields($value)
       ->condition('id',$id)
@@ -75,7 +77,8 @@ class CrudNombresService
   /**
    * Eliminar servicio.
    */
-  public function eliminar($id){
+  public function eliminar($id): void
+  {
     \Drupal::database()->delete('nombres')
       ->condition('id',$id)
       ->execute();
