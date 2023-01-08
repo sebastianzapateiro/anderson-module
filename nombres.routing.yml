@@ -1,0 +1,51 @@
+nombres.listar:
+  path: '/nombres/{id}'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\NombresController::cargarPorId'
+    _title: 'Detalles'
+  requirements:
+    _permission: 'access content'
+
+
+nombres.cargar:
+  path: '/nombres'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\NombresController::cargar'
+    _title: 'Lista'
+  requirements:
+    _permission: 'access content'
+
+nombres.guardar:
+  path: '/nombres/agregar'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\NombresController::agregar'
+    _title: 'Agregar registro'
+  requirements:
+    _permission: 'access content'
+
+
+nombres.editar:
+  path: '/nombres/{id}/editar'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\NombresController::editar'
+    _title: 'Agregar registro'
+  requirements:
+    _permission: 'access content'
+
+
+nombres.eliminar:
+  path: '/nombres/{id}/eliminar'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\NombresController::eliminar'
+    _title: 'Eliminar registro'
+  requirements:
+    _permission: 'access content'
+
+nombres.eliminarSi:
+  path: '/nombres/{id}/eliminar/si'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\NombresController::eliminarSi'
+    _title: 'Registro eliminado'
+  requirements:
+    _permission: 'access content'
+

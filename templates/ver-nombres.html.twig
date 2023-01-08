@@ -1,0 +1,21 @@
+<p>Los datos relacionados con el registro</p>
+
+
+
+{% for key, item in data %}
+
+  <ul>
+    <li>ID: {{ item.id }}</li>
+    <li>Nombre: {{ item.nombre }}</li>
+  </ul>
+
+
+  <a class='button--secondary button' href='/nombres'>Regresar</a>
+  <a class="button--primary button" href="/nombres/{{ item.id }}/editar"> Editar </a>
+
+
+{% endfor %}
+
+
+
+

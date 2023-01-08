@@ -1,0 +1,23 @@
+<?php
+
+use Drupal\Core\Database\Database;
+
+function nombres_install() {
+  // Crea la tabla de nombres.
+  $schema = Database::getConnection()->schema();
+  $schema->createTable('nombres', [
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'nombre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ]);
+}
