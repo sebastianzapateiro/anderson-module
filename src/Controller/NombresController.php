@@ -30,7 +30,7 @@ class NombresController extends ControllerBase
   public function __construct(Connection $database, CrudNombresService $crud)
   {
     $this->database = $database;
-    $this->$crud = $crud;
+    $this->crud = $crud;
   }
 
   /**
@@ -39,7 +39,8 @@ class NombresController extends ControllerBase
   public static function create(ContainerInterface $container)
   {
     return new static(
-      $container->get('database')
+      $container->get('database'),
+      $container->get('nombres.crudNombres')
     );
   }
 
