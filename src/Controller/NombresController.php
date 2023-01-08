@@ -19,6 +19,7 @@ class NombresController extends ControllerBase
    * @var \Drupal\Core\Database\Connection
    */
   protected $database;
+  protected $crud;
 
   /**
    * Crea una nueva instancia del controlador.
@@ -26,9 +27,10 @@ class NombresController extends ControllerBase
    * @param \Drupal\Core\Database\Connection $database
    *   La conexión a la base de datos.
    */
-  public function __construct(Connection $database)
+  public function __construct(Connection $database, CrudNombresService $crud)
   {
     $this->database = $database;
+    $this->$crud = $crud;
   }
 
   /**
