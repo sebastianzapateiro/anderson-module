@@ -1,0 +1,6 @@
+nombres.cargar:
+  title: 'Nombres'
+  description: 'This is te menu link'
+  route_name: nombres.cargar
+  menu_name: main
+  weight: 100
