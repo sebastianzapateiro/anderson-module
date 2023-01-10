@@ -4,7 +4,6 @@ namespace Drupal\nombres\controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
-use Drupal\nombres\Services\Listar;
 use Drupal\nombres\Services\CrudNombresService;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
