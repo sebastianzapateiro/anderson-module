@@ -5,35 +5,49 @@ namespace Drupal\nombres\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
+use Drupal\nombres\Services\Serviciosdb;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * Form definition for the servicios form.
  */
 class ServiciosForm extends FormBase {
 
-  /**
-   * {@inheritdoc}
+
+/**
+   * @var \Drupal\Core\Database\Connection $database
    */
+  protected $serviciosdb;
+
+  /**
+   * Constructs a new Scoopdb object.
+   * @param \Drupal\Core\Database\Connection $connection
+   */
+  public function __construct(Serviciosdb $serviciosdb) {
+    $this->serviciosdb = $serviciosdb;
+  }
+
+
+  public static function create(ContainerInterface $container)
+  {
+    return new static(
+      $container->get('nombres.servicios_crud')
+    );
+  }
+
+
   public function getFormId() {
     return 'servicios_form';
   }
 
-  /**
-   * Form constructor.
-   *
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
-   *
-   * @return array
-   *   The form structure.
-   */
   public function buildForm(array $form, FormStateInterface $form_state, $values = []){
 
+    // dpm($values);
 
     $form['id'] = array(
       '#type' => 'value',
-      '#value' => $values ? $values[0]['id'] : '',
+      '#value' => $values ? $values['id'] : '',
     );
 
     $form['nombre'] = array(
@@ -41,7 +55,7 @@ class ServiciosForm extends FormBase {
       '#title' => $this
         ->t('Nombre'),
       '#required' => TRUE,
-      '#default_value' => $values ? $values[0]['nombre'] : '',
+      '#default_value' => '',
     );
 
     $form['descripcion'] = array(
@@ -54,7 +68,7 @@ class ServiciosForm extends FormBase {
 
     $form['actions']['submit'] = array(
       '#type' => 'submit',
-      '#value' => $values ? 'Actualizar' : 'Agregar',
+      '#value' => 'Agregar',
     );
 
    
@@ -62,39 +76,32 @@ class ServiciosForm extends FormBase {
     return $form;
   }
 
-  /**
-   * Form validation handler.
-   *
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
-   */
+ 
   public function validateForm(array &$form, FormStateInterface $form_state){
 
   }
 
-  /**
-   * Form submission handler.
-   *
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
-   */
+ 
   public function submitForm(array &$form, FormStateInterface $form_state){
 
-   
-
     $valores = $form_state->getValues();
-//
-   dpm($valores);
 
-  //   if ($valores['submit']==='Agregar'){
-  //     /** @var CrudNombresService $servicio */
-  //     $servicio = $this->crud;
-  //     $data = $servicio->guardar($values);
-  //   }else{
+    $values = [
+      'nombre' => $form_state->getValue('nombre'),
+      'nombres_id' => $form_state->getValue('id'),
+      'descripcion' => $form_state->getValue('descripcion'),
+    ];
+
+
+//
+   dpm($valores , 'Valores del formulario de servicios');
+
+    if ($valores['submit']==='Agregar'){
+      /** @var Serviciodb $servicio */
+      $servicio = $this->serviciosdb;
+      $data = $servicio->guardar($values);
+    }
+  // else{
 
 
   //     /** @var CrudNombresService $servicio */

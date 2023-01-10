@@ -5,7 +5,7 @@ namespace Drupal\nombres\controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\nombres\Services\CrudNombresService;
-use Drupal\nombres\Services\ServiciosService;
+use Drupal\nombres\Services\Serviciosdb;
 use Drupal\nombres\Services\Scoopdb;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -21,7 +21,7 @@ class NombresController extends ControllerBase
    */
   protected $database;
   protected $crud;
-  protected $serviciosservice;
+  protected $serviciosdb;
   protected $scoopdb;
 
   /**
@@ -30,12 +30,12 @@ class NombresController extends ControllerBase
    * @param \Drupal\Core\Database\Connection $database
    *   La conexión a la base de datos.
    */
-  public function __construct(Connection $database, CrudNombresService $crud, Scoopdb $scoopdb,ServiciosService $serviciosservice)
+  public function __construct(Connection $database, CrudNombresService $crud, Scoopdb $scoopdb,Serviciosdb $serviciosdb)
   {
     $this->database = $database;
     $this->crud = $crud;
     $this->scoopdb = $scoopdb;
-    $this->serviciosservice = $serviciosservice;
+    $this->serviciosdb = $serviciosdb;
   }
 
   /**
@@ -62,8 +62,6 @@ class NombresController extends ControllerBase
     $servicio = $this->crud;
     $data = $servicio->cargar();
 
-    $servicio = $this->serviciosservice;
-    $servicio->test();
 
     $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\NombresForm');
 
@@ -82,7 +80,17 @@ class NombresController extends ControllerBase
   {
 
 
-    $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\ServiciosForm');
+    $values = [
+      'id' => $id
+    ];
+
+    
+    $servicio = $this->serviciosdb;
+    $resultado = $servicio->cargar();
+
+    dpm($resultado , 'valores obtenidos de la db de servicios');
+
+    $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\ServiciosForm',$values);
 
     /** @var CrudNombresService $servicio */
     $servicio = $this->crud;

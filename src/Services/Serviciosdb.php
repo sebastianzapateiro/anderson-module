@@ -2,8 +2,28 @@
 
 namespace Drupal\nombres\Services;
 
-class ServiciosService
+
+use Drupal\Core\Database\Connection;
+
+class Serviciosdb
 {
+
+
+  /**
+   * @var \Drupal\Core\Database\Connection $database
+   */
+  protected $database;
+
+  /**
+   * Constructs a new Scoopdb object.
+   * @param \Drupal\Core\Database\Connection $connection
+   */
+  public function __construct(Connection $connection) {
+    $this->database = $connection;
+  }
+
+ 
+
 
 
   public function test(){
@@ -17,7 +37,7 @@ class ServiciosService
   public function cargar(): array
   {
 
-    $query = \Drupal::database()->select('servicios', 's');
+    $query = $this->database->select('servicios', 's');
     $query->fields('s', ['id', 'nombre','descripcion']);
     $result = $query->execute();
 
@@ -66,7 +86,7 @@ class ServiciosService
    */
   public function guardar($values): void
   {
-    \Drupal::database()->insert('nombres')
+    $this->database->insert('servicios')
       ->fields($values)->execute();
   }
 

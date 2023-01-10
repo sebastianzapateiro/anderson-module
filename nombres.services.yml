@@ -4,8 +4,9 @@ services:
     arguments: ['@database'] 
 
   nombres.servicios_crud:
-    class: 'Drupal\nombres\Services\ServiciosService'
+    class: 'Drupal\nombres\Services\serviciosdb'
+    arguments: ['@database'] 
 
   nombres.icecream:
-    class: Drupal\nombres\Services\scoopdb
+    class: 'Drupal\nombres\Services\scoopdb'
     arguments: ['@database'] 

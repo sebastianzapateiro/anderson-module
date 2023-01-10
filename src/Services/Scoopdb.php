@@ -25,6 +25,13 @@ class Scoopdb  {
    * Returns list of nids from icecream table.
    */
   public function test(){
+
+    
+    $query = $this->database->select('servicios', 's');
+    $query->fields('s', ['id', 'nombre','descripcion']);
+    $result = $query->execute();
+
+
     return dpm('test');
   }
 }

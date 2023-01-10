@@ -126,9 +126,9 @@ class NombresForm extends FormBase
       /** @var CrudNombresService $servicio */
       $servicio = $this->crud;
       $data = $servicio->guardar($values);
-      dpm($valores);
+      // dpm($valores);
     }else{
-      dpm($valores);
+      // dpm($valores);
 
       /** @var CrudNombresService $servicio */
       $servicio = $this->crud;
