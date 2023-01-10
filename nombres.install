@@ -1,11 +1,16 @@
 <?php
 
-use Drupal\Core\Database\Database;
+// use Drupal\Core\Database\Database;
 
-function nombres_install() {
-  // Crea la tabla de nombres.
-  $schema = Database::getConnection()->schema();
-  $schema->createTable('nombres', [
+function nombres_schema()
+{
+
+  $schema = [];
+
+
+
+  $schema['nombres'] = [
+    'description' => 'The table that holds nombres data.',
     'fields' => [
       'id' => [
         'type' => 'serial',
@@ -19,5 +24,52 @@ function nombres_install() {
       ],
     ],
     'primary key' => ['id'],
-  ]);
+  ];
+
+
+
+
+  $schema['servicios'] = [
+    'description' => 'The table that holds services data.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'nombres_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'nombre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'descripcion' => [
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'nombres_id' => [
+        'nombres_id',
+      ],
+    ],
+    
+  ];
+
+
+
+  return $schema;
+
+
+  // Crea la tabla de nombres.
+  // $schema = Database::getConnection()->schema();
+  // $schema->createTable('nombres', [
+
+  //   'primary key' => ['id'],
+  // ]);
 }
