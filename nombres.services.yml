@@ -1,3 +1,11 @@
 services:
   nombres.crudNombres:
     class: 'Drupal\nombres\Services\CrudNombresService'
+    arguments: ['@database'] 
+
+  nombres.servicios_crud:
+    class: 'Drupal\nombres\Services\ServiciosService'
+
+  nombres.icecream:
+    class: Drupal\nombres\Services\scoopdb
+    arguments: ['@database'] 

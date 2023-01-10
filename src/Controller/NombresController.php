@@ -5,6 +5,8 @@ namespace Drupal\nombres\controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\nombres\Services\CrudNombresService;
+use Drupal\nombres\Services\ServiciosService;
+use Drupal\nombres\Services\Scoopdb;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -19,6 +21,8 @@ class NombresController extends ControllerBase
    */
   protected $database;
   protected $crud;
+  protected $serviciosservice;
+  protected $scoopdb;
 
   /**
    * Crea una nueva instancia del controlador.
@@ -26,10 +30,12 @@ class NombresController extends ControllerBase
    * @param \Drupal\Core\Database\Connection $database
    *   La conexión a la base de datos.
    */
-  public function __construct(Connection $database, CrudNombresService $crud)
+  public function __construct(Connection $database, CrudNombresService $crud, Scoopdb $scoopdb,ServiciosService $serviciosservice)
   {
     $this->database = $database;
     $this->crud = $crud;
+    $this->scoopdb = $scoopdb;
+    $this->serviciosservice = $serviciosservice;
   }
 
   /**
@@ -39,7 +45,9 @@ class NombresController extends ControllerBase
   {
     return new static(
       $container->get('database'),
-      $container->get('nombres.crudNombres')
+      $container->get('nombres.crudNombres'),
+      $container->get('nombres.icecream'),
+      $container->get('nombres.servicios_crud')
     );
   }
 
@@ -54,6 +62,8 @@ class NombresController extends ControllerBase
     $servicio = $this->crud;
     $data = $servicio->cargar();
 
+    $servicio = $this->serviciosservice;
+    $servicio->test();
 
     $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\NombresForm');
 
@@ -71,14 +81,18 @@ class NombresController extends ControllerBase
   public function cargarPorId($id)
   {
 
+
+    $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\ServiciosForm');
+
     /** @var CrudNombresService $servicio */
-    $servicio =     $this->crud;;
+    $servicio = $this->crud;
     $data = $servicio->cargarPorId($id);
 
 
     return [
       '#theme' => 'ver_nombres',
       '#data' => $data,
+      '#form' => $formulario,
     ];
   }
 
@@ -105,7 +119,7 @@ class NombresController extends ControllerBase
   {
 
     /** @var CrudNombresService $servicio */
-    $servicio =     $this->crud;;
+    $servicio =     $this->crud;
     $data = $servicio->cargarPorId($id);
 
     $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\NombresForm', $data);
@@ -129,7 +143,7 @@ class NombresController extends ControllerBase
 
 
     /** @var CrudNombresService $servicio */
-    $servicio =     $this->crud;;
+    $servicio =     $this->crud;
     $data = $servicio->cargarPorId($id);
 
 //    /** @var CrudNombresService $servicio */

@@ -49,3 +49,13 @@ nombres.eliminarSi:
   requirements:
     _permission: 'access content'
 
+
+
+
+nombres.serviciosform:
+  path: '/form-example'
+  defaults:
+    _form: '\Drupal\nombres\Form\MyModuleForm'
+    _title: 'My module form'
+  requirements:
+    _permission: 'access content'

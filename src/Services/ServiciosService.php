@@ -2,29 +2,14 @@
 
 namespace Drupal\nombres\Services;
 
-
-use Drupal\Core\Database\Connection;
-
-class CrudNombresService
+class ServiciosService
 {
 
 
-  /**
-   * @var \Drupal\Core\Database\Connection $database
-   */
-  protected $database;
-
-  /**
-   * Constructs a new Scoopdb object.
-   * @param \Drupal\Core\Database\Connection $connection
-   */
-  public function __construct(Connection $connection) {
-    $this->database = $connection;
-  }
-
   public function test(){
-    return dpm('test');
+    return dpm('ServiciosService is working');
   }
+
 
   /**
    * Obtener todos los datos de la tabla
@@ -32,8 +17,8 @@ class CrudNombresService
   public function cargar(): array
   {
 
-    $query = $this->database->select('nombres', 'n');
-    $query->fields('n', ['id', 'nombre']);
+    $query = \Drupal::database()->select('servicios', 's');
+    $query->fields('s', ['id', 'nombre','descripcion']);
     $result = $query->execute();
 
 
@@ -43,6 +28,7 @@ class CrudNombresService
       $nombres[] = [
         'id' => $row->id,
         'nombre' => $row->nombre,
+        'descripcion' => $row->descripcion,
       ];
     }
 
@@ -55,9 +41,9 @@ class CrudNombresService
   public function cargarPorId($id): array
   {
 
-    $query = $this->database->select('nombres', 'n');
-    $query->fields('n', ['id', 'nombre']);
-    $query->condition('id', $id);
+    $query = \Drupal::database()->select('servicios', 's');
+    $query->fields('s', ['id', 'nombre', 'descripcion']);
+    $query->condition('nombres_id', $id);
     $result = $query->execute();
 
     $nombres = [];
@@ -66,6 +52,7 @@ class CrudNombresService
       $nombres[] = [
         'id' => $row->id,
         'nombre' => $row->nombre,
+        'descripcion' => $row->descripcion,
       ];
     }
 
@@ -79,7 +66,7 @@ class CrudNombresService
    */
   public function guardar($values): void
   {
-    $this->database->insert('nombres')
+    \Drupal::database()->insert('nombres')
       ->fields($values)->execute();
   }
 
@@ -89,7 +76,7 @@ class CrudNombresService
    */
   public function actualizar($id,$value): void
   {
-    $this->database->update('nombres')
+    \Drupal::database()->update('nombres')
       ->fields($value)
       ->condition('id',$id)
       ->execute();
@@ -100,7 +87,7 @@ class CrudNombresService
    */
   public function eliminar($id): void
   {
-    $this->database->delete('nombres')
+    \Drupal::database()->delete('nombres')
       ->condition('id',$id)
       ->execute();
   }
