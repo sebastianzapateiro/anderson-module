@@ -16,6 +16,7 @@ function nombres_theme($existing, $type, $theme, $path) {
       'variables' => [
         'data' => NULL,
         'form' => NULL,
+        'table' => NULL,
       ],
       'template' => 'ver-nombres',
     ],

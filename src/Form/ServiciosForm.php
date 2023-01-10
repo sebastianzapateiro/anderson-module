@@ -93,13 +93,11 @@ class ServiciosForm extends FormBase {
     ];
 
 
-//
-   dpm($valores , 'Valores del formulario de servicios');
-
     if ($valores['submit']==='Agregar'){
       /** @var Serviciodb $servicio */
       $servicio = $this->serviciosdb;
       $data = $servicio->guardar($values);
+      // dpm($data);
     }
   // else{
 

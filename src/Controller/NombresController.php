@@ -80,15 +80,46 @@ class NombresController extends ControllerBase
   {
 
 
+    
+
+
     $values = [
       'id' => $id
     ];
 
     
     $servicio = $this->serviciosdb;
-    $resultado = $servicio->cargar();
+    $resultado = $servicio->cargarPorId($id);
 
-    dpm($resultado , 'valores obtenidos de la db de servicios');
+
+
+    $filas = [];
+    foreach($resultado as $item){
+      $filas[] = [
+        'data' => [
+          $item['id'],
+          $item['nombres_id'],
+          $item['nombre'],
+          $item['descripcion'],
+        ]
+      ];
+    }
+
+    $cabeceras = [
+      'id',
+      'uid',
+      'nombre',
+      'descripcion',
+    ];
+
+
+    $tabla = [
+      '#type' => 'table',
+      '#header' => $cabeceras,
+      '#rows' => $filas,
+    ];
+
+    // dpm($resultado , 'valores obtenidos de la db de servicios');
 
     $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\ServiciosForm',$values);
 
@@ -101,6 +132,7 @@ class NombresController extends ControllerBase
       '#theme' => 'ver_nombres',
       '#data' => $data,
       '#form' => $formulario,
+      '#table' => $tabla,
     ];
   }
 

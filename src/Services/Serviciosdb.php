@@ -38,7 +38,7 @@ class Serviciosdb
   {
 
     $query = $this->database->select('servicios', 's');
-    $query->fields('s', ['id', 'nombre','descripcion']);
+    $query->fields('s', ['id','nombres_id', 'nombre','descripcion']);
     $result = $query->execute();
 
 
@@ -47,6 +47,7 @@ class Serviciosdb
     foreach ($result as $row) {
       $nombres[] = [
         'id' => $row->id,
+        'nombres_id' => $row->nombres_id,
         'nombre' => $row->nombre,
         'descripcion' => $row->descripcion,
       ];
@@ -62,15 +63,17 @@ class Serviciosdb
   {
 
     $query = \Drupal::database()->select('servicios', 's');
-    $query->fields('s', ['id', 'nombre', 'descripcion']);
+    $query->fields('s', ['id', 'nombres_id' ,'nombre', 'descripcion']);
     $query->condition('nombres_id', $id);
     $result = $query->execute();
+
 
     $nombres = [];
 
     foreach ($result as $row) {
       $nombres[] = [
         'id' => $row->id,
+        'nombres_id' => $row->nombres_id,
         'nombre' => $row->nombre,
         'descripcion' => $row->descripcion,
       ];
