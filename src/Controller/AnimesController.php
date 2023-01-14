@@ -70,12 +70,19 @@ class AnimesController extends ControllerBase
     ];
 
     $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\AnimesForm');
-    $markup = ['#markup' => $this->t('home'),];
+    // $markup = ['#markup' => $this->t('home'),];
 
-    $build[] = $formulario;
-    $build[] = $tabla;
-    $build[] = $markup;
-    return $build;
+    // $build[] = $formulario;
+    // $build[] = $tabla;
+    // $build[] = $markup;
+    // return $build;
+
+    return [
+      '#theme' => 'animes',
+      '#data' => $data,
+      '#form' => $formulario,
+      '#table' => $tabla,
+    ];
   }
 
   public function add()

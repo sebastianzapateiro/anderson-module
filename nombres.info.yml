@@ -2,3 +2,7 @@ name: Nombres Crud
 description: Un módulo para gestionar una lista de Nombres.
 type: module
 core_version_requirement: ^8.8 || ^9 || ^10
+dependencies:
+  - drupal:media
+  - drupal:media_library_form_element
+

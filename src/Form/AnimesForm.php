@@ -10,7 +10,7 @@ use Drupal\nombres\Services\Animesdb;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\file\Entity\File;
-
+use Drupal\media\Entity\Media;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -44,12 +44,13 @@ class AnimesForm extends FormBase
 
 
     $form['portada'] = array(
-      '#type' => 'managed_file',
+      '#type' => 'media_library',
+      '#allowed_bundles' => ['image'],
       '#name' => 'custom_content_block_portada',
       '#title' => t('Portada'),
       '#size' => 40,
       '#required' => TRUE,
-      // '#description' => t('La portada debe ser en formato png, jpg.'),
+      '#description' => t('La portada debe ser en formato png, jpg.'),
       '#upload_location' => 'public://portada',
       '#upload_validators' => array(
         'file_validate_extensions' => array('png jpg'),
@@ -59,12 +60,14 @@ class AnimesForm extends FormBase
     );
 
     $form['cover'] = array(
-      '#type' => 'managed_file',
+      // '#type' => 'managed_file',
+      '#type' => 'media_library',
+      '#allowed_bundles' => ['image'],
       '#name' => 'custom_content_block_cover',
       '#title' => t('Cover'),
       '#size' => 40,
       '#required' => TRUE,
-      // '#description' => t('La imagen cover o caratula debe ser en formato png, jpg.'),
+      '#description' => t('La imagen cover o caratula debe ser en formato png, jpg.'),
       '#upload_location' => 'public://cover',
       '#upload_validators' => array(
         'file_validate_extensions' => array('png jpg'),
@@ -126,25 +129,30 @@ class AnimesForm extends FormBase
     $anime = [
       'nombre' => $form_state->getValue('nombre'),
       'descripcion' => $form_state->getValue('descripcion'),
-      'portada' => $this->getUri($form_state->getValue('portada')),
-      'cover' => $this->getUri($form_state->getValue('cover')),
+      // 'portada' => $this->getUri($form_state->getValue('portada')),
+      // 'cover' => $this->getUri($form_state->getValue('cover')),
+      'portada' => $this->getUri($array[] = [$form_state->getValue('portada')]),
+      'cover' => $this->getUri($array[] = [$form_state->getValue('cover')]),
     ];
 
 
+    // guardar 
     $data = $this->animesdb->add($anime);
-      
-    if($data > 0 ){
-      \Drupal::messenger()->addMessage('Se ha agregado correctamente el registro');
-    }
+
+    // notificacion
+    \Drupal::messenger()->addMessage('Se ha agregado correctamente el registro');
+    
 
   }
 
 // funcion para obtener la url del servicio de load 
-  public function getUri($uri){
+  public function getUri($mid){
 
-    $file = File::load(reset($uri));
-    $file->setPermanent();
-    $file->save();
+    $media = Media::load(reset($mid));
+
+    $fid = $media->getSource()->getSourceFieldValue($media);
+    $file = File::load($fid);
+
     $url = $file->createFileUrl($file->getFileUri());
     return $url;
   }

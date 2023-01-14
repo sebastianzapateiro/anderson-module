@@ -20,5 +20,13 @@ function nombres_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'ver-nombres',
     ],
+    'animes' => [
+      'variables' => [
+        'data' => NULL,
+        'form' => NULL,
+        'table' => NULL,
+      ],
+      'template' => 'animes',
+    ],
   ];
 }
