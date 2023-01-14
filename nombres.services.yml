@@ -9,6 +9,10 @@ services:
 
   nombres.icecream:
     class: 'Drupal\nombres\Services\scoopdb'
-    arguments: ['@database'] 
+    arguments: ['@database']
+
+  nombres.animes:
+    class: 'Drupal\nombres\Services\animesdb'
+    arguments: ['@database']
 
 # agregado un comentario

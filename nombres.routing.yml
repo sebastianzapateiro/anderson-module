@@ -59,3 +59,21 @@ nombres.serviciosform:
     _title: 'My module form'
   requirements:
     _permission: 'access content'
+
+
+nombres.animes:
+  path: '/animes'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\AnimesController::home'
+    _title: 'Animes'
+  requirements:
+    _permission: 'access content'
+
+nombres.animes_getById:
+  path: '/animes/{id}'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\AnimesController::getById'
+    _title: 'Animes'
+  requirements:
+    _permission: 'access content'
+

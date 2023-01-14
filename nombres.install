@@ -8,6 +8,38 @@ function nombres_schema()
   $schema = [];
 
 
+  $schema['animes'] = [
+    'description' => 'Tabla para el registro de los animes',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'portada' => [
+        'type' => 'varchar',
+        'length' => 512,
+        'not null' => TRUE,
+      ],
+      'cover' => [
+        'type' => 'varchar',
+        'length' => 512,
+        'not null' => TRUE,
+      ],
+      'nombre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'descripcion' => [
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+
 
   $schema['nombres'] = [
     'description' => 'The table that holds nombres data.',
