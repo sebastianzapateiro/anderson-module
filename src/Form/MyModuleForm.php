@@ -4,43 +4,8 @@ namespace Drupal\nombres\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\nombres\Services\CrudNombresService;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class NombresForm extends FormBase
-{
-
-
-
-  /**
-   * Llamada al servicio.
-   */
-  protected $crud;
-
-  /**
-   * Crea una nueva instancia del servicio.
-   * @param CrudNombresService $crud
-   */
-  public function __construct( CrudNombresService $crud)
-  {
-    $this->crud = $crud;
-  }
-
-  /**
-   * @param ContainerInterface $container
-   * @return NombresForm|static
-   */
-  public static function create(ContainerInterface $container)
-  {
-    return new static(
-      $container->get('nombres.crudNombres')
-    );
-  }
-
-
-
-
-
+class MyModuleForm extends FormBase{
 
   /**
    * Returns a unique string identifying the form.
@@ -53,7 +18,7 @@ class NombresForm extends FormBase
    *   The unique string identifying the form.
    */
   public function getFormId(){
-    return 'nombres_form';
+    return 'my_module_form';
   }
 
   /**
@@ -67,26 +32,31 @@ class NombresForm extends FormBase
    * @return array
    *   The form structure.
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $values = []){
-
+  public function buildForm(array $form, FormStateInterface $form_state){
 
     $form['nombre'] = array(
       '#type' => 'textfield',
       '#title' => $this
         ->t('Nombre'),
+      /*'#default_value' => 'Nombre',*/
+      /*'#size' => 60,*/
+      /*'#maxlength' => 128,*/
+      /*'#pattern' => 'some-prefix-[a-z]+',*/
       '#required' => TRUE,
-      '#default_value' => $values ? $values[0]['nombre'] : '',
     );
 
+
+    $form['descripcion'] = array(
+      '#type' => 'textarea',
+      '#title' => $this
+        ->t('Descripcion'),
+      '#required' => TRUE,
+    );
 
     $form['actions']['submit'] = array(
       '#type' => 'submit',
-      '#value' => $values ? 'Actualizar' : 'Agregar',
-    );
-
-    $form['nombre_id'] = array(
-      '#type' => 'value',
-      '#value' => $values ? $values[0]['id'] : '',
+      '#value' => $this
+        ->t('Add'),
     );
 
     return $form;
@@ -114,32 +84,23 @@ class NombresForm extends FormBase
    */
   public function submitForm(array &$form, FormStateInterface $form_state){
 
+
+
+
     $values = [
       'nombre' => $form_state->getValue('nombre'),
+      'descripcion' => $form_state->getValue('descripcion'),
     ];
 
-    $valores = $form_state->getValues();
-//
-//    dpm($valores);
 
-    if ($valores['submit']==='Agregar'){
-      /** @var CrudNombresService $servicio */
-      $servicio = $this->crud;
-      $data = $servicio->guardar($values);
-      // dpm($valores);
-    }else{
-      // dpm($valores);
 
-      /** @var CrudNombresService $servicio */
-      $servicio = $this->crud;
-      $data = $servicio->actualizar($valores['nombre_id'],$values);
-      $form_state->setRedirect('nombres.cargar');
-      \Drupal::messenger()->addMessage('Se ha actualizado correctamente el registro');
-    }
+
+    \Drupal::database()->insert('servicios')
+      ->fields($values)->execute();
+
 
 
 
   }
-
 
 }

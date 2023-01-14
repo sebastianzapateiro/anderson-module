@@ -13,8 +13,20 @@ function nombres_theme($existing, $type, $theme, $path) {
       'template' => 'listar-nombres',
     ],
     'ver_nombres' => [
-      'variables' => ['data' => []],
+      'variables' => [
+        'data' => NULL,
+        'form' => NULL,
+        'table' => NULL,
+      ],
       'template' => 'ver-nombres',
+    ],
+    'animes' => [
+      'variables' => [
+        'data' => NULL,
+        'form' => NULL,
+        'table' => NULL,
+      ],
+      'template' => 'animes',
     ],
   ];
 }

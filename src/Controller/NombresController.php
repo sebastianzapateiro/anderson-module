@@ -5,6 +5,8 @@ namespace Drupal\nombres\controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\nombres\Services\CrudNombresService;
+use Drupal\nombres\Services\Serviciosdb;
+use Drupal\nombres\Services\Scoopdb;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -19,6 +21,8 @@ class NombresController extends ControllerBase
    */
   protected $database;
   protected $crud;
+  protected $serviciosdb;
+  protected $scoopdb;
 
   /**
    * Crea una nueva instancia del controlador.
@@ -26,10 +30,12 @@ class NombresController extends ControllerBase
    * @param \Drupal\Core\Database\Connection $database
    *   La conexión a la base de datos.
    */
-  public function __construct(Connection $database, CrudNombresService $crud)
+  public function __construct(Connection $database, CrudNombresService $crud, Scoopdb $scoopdb,Serviciosdb $serviciosdb)
   {
     $this->database = $database;
     $this->crud = $crud;
+    $this->scoopdb = $scoopdb;
+    $this->serviciosdb = $serviciosdb;
   }
 
   /**
@@ -39,7 +45,9 @@ class NombresController extends ControllerBase
   {
     return new static(
       $container->get('database'),
-      $container->get('nombres.crudNombres')
+      $container->get('nombres.crudNombres'),
+      $container->get('nombres.icecream'),
+      $container->get('nombres.servicios_crud')
     );
   }
 
@@ -71,14 +79,60 @@ class NombresController extends ControllerBase
   public function cargarPorId($id)
   {
 
+
+    
+
+
+    $values = [
+      'id' => $id
+    ];
+
+    
+    $servicio = $this->serviciosdb;
+    $resultado = $servicio->cargarPorId($id);
+
+
+
+    $filas = [];
+    foreach($resultado as $item){
+      $filas[] = [
+        'data' => [
+          $item['id'],
+          $item['nombres_id'],
+          $item['nombre'],
+          $item['descripcion'],
+        ]
+      ];
+    }
+
+    $cabeceras = [
+      'id',
+      'uid',
+      'nombre',
+      'descripcion',
+    ];
+
+
+    $tabla = [
+      '#type' => 'table',
+      '#header' => $cabeceras,
+      '#rows' => $filas,
+    ];
+
+    // dpm($resultado , 'valores obtenidos de la db de servicios');
+
+    $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\ServiciosForm',$values);
+
     /** @var CrudNombresService $servicio */
-    $servicio =     $this->crud;;
+    $servicio = $this->crud;
     $data = $servicio->cargarPorId($id);
 
 
     return [
       '#theme' => 'ver_nombres',
       '#data' => $data,
+      '#form' => $formulario,
+      '#table' => $tabla,
     ];
   }
 
@@ -105,7 +159,7 @@ class NombresController extends ControllerBase
   {
 
     /** @var CrudNombresService $servicio */
-    $servicio =     $this->crud;;
+    $servicio =     $this->crud;
     $data = $servicio->cargarPorId($id);
 
     $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\NombresForm', $data);
@@ -129,7 +183,7 @@ class NombresController extends ControllerBase
 
 
     /** @var CrudNombresService $servicio */
-    $servicio =     $this->crud;;
+    $servicio =     $this->crud;
     $data = $servicio->cargarPorId($id);
 
 //    /** @var CrudNombresService $servicio */

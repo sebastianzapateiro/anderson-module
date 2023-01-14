@@ -1,3 +1,18 @@
 services:
   nombres.crudNombres:
     class: 'Drupal\nombres\Services\CrudNombresService'
+    arguments: ['@database'] 
+
+  nombres.servicios_crud:
+    class: 'Drupal\nombres\Services\serviciosdb'
+    arguments: ['@database'] 
+
+  nombres.icecream:
+    class: 'Drupal\nombres\Services\scoopdb'
+    arguments: ['@database']
+
+  nombres.animes:
+    class: 'Drupal\nombres\Services\animesdb'
+    arguments: ['@database']
+
+# agregado un comentario
