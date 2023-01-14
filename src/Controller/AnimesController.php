@@ -41,13 +41,39 @@ class AnimesController extends ControllerBase
   public function home()
   {
 
-    $servicio = $this->animesdb->test();
+    $data = $this->animesdb->getAll();
 
+    $filas = [];
+    foreach($data as $item){
+      $filas[] = [
+        'data' => [
+          $item->id,
+          $item->descripcion,
+          $item->portada,
+          $item->cover,
+        ]
+      ];
+    }
+
+    $cabeceras = [
+      'id',
+      'descripcion',
+      'portada',
+      'cover',
+    ];
+
+
+    $tabla = [
+      '#type' => 'table',
+      '#header' => $cabeceras,
+      '#rows' => $filas,
+    ];
 
     $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\AnimesForm');
     $markup = ['#markup' => $this->t('home'),];
 
     $build[] = $formulario;
+    $build[] = $tabla;
     $build[] = $markup;
     return $build;
   }

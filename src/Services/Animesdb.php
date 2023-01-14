@@ -24,7 +24,7 @@ class Animesdb  {
   /**
    * Returns list of nids from icecream table.
    */
-  public function test(){
+  public function getAll(){
 
     
     $query = $this->database->select('animes', 'a');
@@ -32,14 +32,16 @@ class Animesdb  {
     $result = $query->execute()->fetchAll();
 
 
-    return dpm($result);
+    return $result;
   }
 
 
-  public function add($data): void
+  public function add($data)
   {
-    $this->database->insert('animes')
+    $result = $this->database->insert('animes')
       ->fields($data)->execute();
+
+    return $result;
   }
 
 

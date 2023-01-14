@@ -133,7 +133,9 @@ class AnimesForm extends FormBase
 
     $data = $this->animesdb->add($anime);
       
-    dpm($data);
+    if($data > 0 ){
+      \Drupal::messenger()->addMessage('Se ha agregado correctamente el registro');
+    }
 
   }
 
