@@ -3,14 +3,10 @@
 namespace Drupal\nombres\Form;
 
 
-
-
 use Drupal\nombres\Services\Animesdb;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\file\Entity\File;
-use Drupal\media\Entity\Media;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,16 +14,16 @@ class AnimesForm extends FormBase
 {
 
 
-  protected $animesdb;
+  protected Animesdb $animesdb;
 
-  
-  public function __construct( Animesdb $animesdb)
+
+  public function __construct(Animesdb $animesdb)
   {
     $this->animesdb = $animesdb;
   }
 
- 
-  public static function create(ContainerInterface $container)
+
+  public static function create(ContainerInterface $container): AnimesForm|static
   {
     return new static(
       $container->get('nombres.animes')
@@ -35,12 +31,14 @@ class AnimesForm extends FormBase
   }
 
 
-  public function getFormId(){
+  public function getFormId(): string
+  {
     return 'animes_form';
   }
 
 
-  public function buildForm(array $form, FormStateInterface $form_state){
+  public function buildForm(array $form, FormStateInterface $form_state, $data = []): array
+  {
 
 
     $form['portada'] = array(
@@ -50,13 +48,14 @@ class AnimesForm extends FormBase
       '#title' => t('Portada'),
       '#size' => 40,
       '#required' => TRUE,
+      '#default_value' => $data ? $data[0]->portada : '',
       '#description' => t('La portada debe ser en formato png, jpg.'),
       '#upload_location' => 'public://portada',
       '#upload_validators' => array(
         'file_validate_extensions' => array('png jpg'),
-        
+
       ),
-      '#attributes' => array('class' => array('mb-3')), 
+      '#attributes' => array('class' => array('mb-3')),
     );
 
     $form['cover'] = array(
@@ -67,12 +66,13 @@ class AnimesForm extends FormBase
       '#title' => t('Cover'),
       '#size' => 40,
       '#required' => TRUE,
+      '#default_value' => $data ? $data[0]->cover : '',
       '#description' => t('La imagen cover o caratula debe ser en formato png, jpg.'),
       '#upload_location' => 'public://cover',
       '#upload_validators' => array(
         'file_validate_extensions' => array('png jpg'),
       ),
-      '#attributes' => array('class' => array('mb-3')), 
+      '#attributes' => array('class' => array('mb-3')),
     );
 
     $form['nombre'] = array(
@@ -80,8 +80,8 @@ class AnimesForm extends FormBase
       '#title' => $this
         ->t('Nombre'),
       '#required' => TRUE,
-      '#default_value' => '',
-      '#attributes' => array('class' => array('mb-3')), 
+      '#default_value' => $data ? $data[0]->nombre : '',
+      '#attributes' => array('class' => array('mb-3')),
     );
 
 
@@ -90,25 +90,20 @@ class AnimesForm extends FormBase
       '#title' => $this
         ->t('Description'),
       '#required' => TRUE,
-      '#default_value' => '',
-      '#attributes' => array('class' => array('mb-3')), 
+      '#default_value' => $data ? $data[0]->descripcion : '',
+      '#attributes' => array('class' => array('mb-3')),
     );
-
-
-    
 
 
     $form['actions'] = array('#type' => 'actions');
     $form['actions']['submit'] = array(
       '#type' => 'submit',
-      '#value' => t('Save'),
+      '#value' => t($data ? 'Actualizar' : 'Agregar'),
     );
-    $form['actions']['delete'] = array(
-      '#type' => 'button',
-      '#value' => t('Delete'),
-    );
-    $form['actions']['cancel'] = array(
-      '#markup' => "<a href='./' class='btn btn-danger'>Regresar</a>",
+
+    $form['id'] = array(
+      '#type' => 'hidden',
+      '#value' => $data ? $data[0]->id : '',
     );
 
 
@@ -116,14 +111,15 @@ class AnimesForm extends FormBase
     return $form;
   }
 
-  
-  public function validateForm(array &$form, FormStateInterface $form_state){
+
+  public function validateForm(array &$form, FormStateInterface $form_state)
+  {
 
   }
 
- 
-  public function submitForm(array &$form, FormStateInterface $form_state){
 
+  public function submitForm(array &$form, FormStateInterface $form_state, $id = NULL)
+  {
 
 
     $anime = [
@@ -131,31 +127,31 @@ class AnimesForm extends FormBase
       'descripcion' => $form_state->getValue('descripcion'),
       // 'portada' => $this->getUri($form_state->getValue('portada')),
       // 'cover' => $this->getUri($form_state->getValue('cover')),
-      'portada' => $this->getUri($array[] = [$form_state->getValue('portada')]),
-      'cover' => $this->getUri($array[] = [$form_state->getValue('cover')]),
+//      'portada' => $this->getUri($array[] = [$form_state->getValue('portada')]),
+//      'cover' => $this->getUri($array[] = [$form_state->getValue('cover')]),
+      'portada' => $form_state->getValue('portada'),
+      'cover' => $form_state->getValue('cover'),
     ];
 
 
-    // guardar 
-    $data = $this->animesdb->add($anime);
+    if ($form_state->getValue('op') == 'Agregar') {
 
-    // notificacion
-    \Drupal::messenger()->addMessage('Se ha agregado correctamente el registro');
-    
+      $data = $this->animesdb->add($anime);
+
+      // notification
+      \Drupal::messenger()->addMessage('Se ha agregado correctamente el registro');
+    } else {
+
+      $id = $form_state->getValue('id');
+
+      $data = $this->animesdb->update($id, $anime);
+
+      \Drupal::messenger()->addMessage('Se ha actualizado correctamente');
+    }
+
 
   }
 
-// funcion para obtener la url del servicio de load 
-  public function getUri($mid){
-
-    $media = Media::load(reset($mid));
-
-    $fid = $media->getSource()->getSourceFieldValue($media);
-    $file = File::load($fid);
-
-    $url = $file->createFileUrl($file->getFileUri());
-    return $url;
-  }
 
 }
 

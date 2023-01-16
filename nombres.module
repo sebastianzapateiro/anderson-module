@@ -28,5 +28,29 @@ function nombres_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'animes',
     ],
+    'animes_admin' => [
+      'variables' => [
+        'data' => NULL,
+        'form' => NULL,
+        'table' => NULL,
+      ],
+      'template' => 'animes-admin',
+    ],
+    'animes_admin_ver' => [
+      'variables' => [
+        'data' => NULL,
+        'form' => NULL,
+        // 'table' => NULL,
+      ],
+      'template' => 'animes-admin-ver',
+    ],
+    'animes_ver' => [
+      'variables' => [
+        'data' => NULL,
+        // 'form' => NULL,
+        // 'table' => NULL,
+      ],
+      'template' => 'animes-ver',
+    ],
   ];
 }

@@ -110,7 +110,8 @@ class Serviciosdb
    */
   public function eliminar($id): void
   {
-    \Drupal::database()->delete('nombres')
+    
+    $this->database->delete('animes')
       ->condition('id',$id)
       ->execute();
   }
