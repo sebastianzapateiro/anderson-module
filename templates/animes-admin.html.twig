@@ -1,0 +1,44 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+ADMINISTRADOR
+
+
+
+<div class="container px-4">
+  <div class="row gx-3">
+    <div class="col-md-4 col-lg-3">
+      <div class="p-3">
+        {{ form }}
+      </div>
+    </div>
+    <div class="col">
+      <div class="p-3">
+        <div class="row gx-2">
+          {% for item in data %}
+
+            <div class="col-md-3 col-lg-2 ">
+              <a href='/animes/admin/{{ item.id }}/{{ item.nombre| trim | replace({' ': "-"}) }}'>
+                <img src="{{ item.cover }}" class="img-fluid rounded-3" alt="{{ item.nombre }}">
+                <div class="p-2">
+                  <h6 class="card-title">{{ item.nombre }}</h6>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{#		{{ table }}#}
+
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+

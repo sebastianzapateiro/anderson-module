@@ -1,0 +1,132 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+<h1 class="mb-4">Detalles:
+  {{ data.0.nombre }}</h1>
+
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="pills-detalles-tab" data-bs-toggle="pill" data-bs-target="#pills-detalles"
+      type="button" role="tab" aria-controls="pills-detalles" aria-selected="true">Detalles</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-editar-tab" data-bs-toggle="pill" data-bs-target="#pills-editar" type="button"
+      role="tab" aria-controls="pills-editar" aria-selected="false">Editar</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-elimnar-tab" data-bs-toggle="pill" data-bs-target="#pills-elimnar" type="button"
+      role="tab" aria-controls="pills-elimnar" aria-selected="false">Eliminar</button>
+  </li>
+
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-detalles" role="tabpanel" aria-labelledby="pills-detalles-tab"
+    tabindex="0">
+    <div class="p-3">
+
+
+      {% for item in data %}
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-2 ">
+            <img id='cover' src="{{ item.cover }}" class="img-fluid rounded-4" alt="{{ item.nombre }}">
+          </div>
+          <div class="col">
+            <div class="py-3 px-3 px-md-0">
+              <h5 class="card-title">{{ item.nombre }}</h5>
+              <p class="card-text">{{ item.descripcion }}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <div class="container my-5">
+
+        <h3 class="mb-4">Capitulos</h3>
+
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-capitulos-tab" data-bs-toggle="pill"
+              data-bs-target="#pills-capitulos" type="button" role="tab" aria-controls="pills-capitulos"
+              aria-selected="true">capitulos</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-agregar-tab" data-bs-toggle="pill" data-bs-target="#pills-agregar"
+              type="button" role="tab" aria-controls="pills-agregar" aria-selected="false">agregar</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
+              type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled"
+              type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" disabled>Disabled</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-capitulos" role="tabpanel"
+            aria-labelledby="pills-capitulos-tab" tabindex="0">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td colspan="2">Larry the Bird</td>
+                  <td>@twitter</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+          <div class="tab-pane fade" id="pills-agregar" role="tabpanel" aria-labelledby="pills-agregar-tab"
+            tabindex="0">...</div>
+          <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
+            tabindex="0">...</div>
+          <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab"
+            tabindex="0">...</div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-editar" role="tabpanel" aria-labelledby="pills-editar-tab" tabindex="0">
+    <div class='bg'>
+      {{ form }}
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-elimnar" role="tabpanel" aria-labelledby="pills-elimnar-tab" tabindex="0">
+    <h5>Estas a punto de eliminar este anime</h5>
+    <p>Todos los datos asociados a
+      {{ data.0.nombre }}, estas seguro?</p>
+
+
+    <a class="btn btn-danger" href="/animes/admin/{{data.0.id}}/eliminar">Si,eliminar</a>
+
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

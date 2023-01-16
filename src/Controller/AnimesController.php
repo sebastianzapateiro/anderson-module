@@ -3,9 +3,9 @@
 namespace Drupal\nombres\controller;
 
 
-// mis imports 
+// mis imports
 use Drupal\nombres\Services\Animesdb;
-
+use Drupal\nombres\Helper\Helper;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -15,7 +15,7 @@ class AnimesController extends ControllerBase
 {
 
 
-  
+
   protected $database;
   protected $animesdb;
 
@@ -27,7 +27,7 @@ class AnimesController extends ControllerBase
 
 
 
- 
+
   public static function create(ContainerInterface $container)
   {
     return new static(
@@ -69,13 +69,12 @@ class AnimesController extends ControllerBase
       '#rows' => $filas,
     ];
 
-    $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\AnimesForm');
-    // $markup = ['#markup' => $this->t('home'),];
 
-    // $build[] = $formulario;
-    // $build[] = $tabla;
-    // $build[] = $markup;
-    // return $build;
+
+
+
+    $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\AnimesForm');
+
 
     return [
       '#theme' => 'animes',
@@ -85,42 +84,111 @@ class AnimesController extends ControllerBase
     ];
   }
 
-  public function add()
+
+
+  public function admin()
   {
-    $markup = ['#markup' => $this->t('esta es la pagina con el formulario'),];
-    $build[] = $markup;
-    return $build;
+
+    $helper = new Helper();
+
+
+
+
+    $resultado = $this->animesdb->getAll();
+
+
+    $data = [];
+
+    foreach($resultado as $item){
+          $data[] = [
+            'id' => $item->id,
+            'nombre' => $item->nombre,
+            'descripcion' => $item->descripcion,
+            'portada' => $helper->helpergetUri($item->portada),
+            'cover' => $helper->helpergetUri($item->cover),
+          ];
+    }
+
+
+
+
+    $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\AnimesForm');
+
+
+    return [
+      '#theme' => 'animes_admin',
+      '#data' => $data,
+      '#form' => $formulario,
+    ];
   }
 
-  public function getById()
+  public function adminVer($id,$name)
   {
-    $markup = ['#markup' => $this->t('esta es la pagina con el formulario'),];
-    $build[] = $markup;
-    return $build;
+
+    $resultado = $this->animesdb->getById($id);
+    $formulario = $this->formBuilder()->getForm('\Drupal\nombres\Form\AnimesForm', $resultado);
+
+    $helper = new Helper();
+
+    $data = [];
+
+    foreach($resultado as $item){
+      $data[] = [
+        'id' => $item->id,
+        'nombre' => $item->nombre,
+        'descripcion' => $item->descripcion,
+        'portada' => $helper->helpergetUri($item->portada),
+        'cover' => $helper->helpergetUri($item->cover),
+      ];
+    }
+
+    return [
+      '#theme' => 'animes_admin_ver',
+      '#data' => $data,
+      '#form' => $formulario,
+      // '#table' => $tabla,
+    ];
+
   }
 
-  public function getAll()
+  public function adminEliminar($id)
   {
-    $markup = ['#markup' => $this->t('esta es la pagina con el formulario'),];
-    $build[] = $markup;
-    return $build;
+
+    $servicio = $this->animesdb->delete($id);
+
+    return $this->redirect('nombres.animes_admin_ver');
+
   }
 
-  public function update()
+  public function getById($id,$name)
   {
-    
-    $markup = ['#markup' => $this->t('esta es la pagina con el formulario'),];
-    $build[] = $markup;
-    return $build;
+//    obtener mi data
+    $resultado = $this->animesdb->getById($id);
+//    instancia para transformar mi id a url
+    $helper = new Helper();
+
+    $data = [];
+
+    foreach($resultado as $item){
+      $data[] = [
+        'id' => $item->id,
+        'nombre' => $item->nombre,
+        'descripcion' => $item->descripcion,
+        'portada' => $helper->helpergetUri($item->portada),
+        'cover' => $helper->helpergetUri($item->cover),
+      ];
+    }
+
+    return [
+      '#theme' => 'animes_ver',
+      '#data' => $data,
+      // '#form' => $formulario,
+      // '#table' => $tabla,
+    ];
+
+
   }
 
-  public function delete()
-  {
-    $markup = ['#markup' => $this->t('esta es la pagina con el formulario'),];
-    $build[] = $markup;
-    return $build;
-  }
 
-  
 
 }

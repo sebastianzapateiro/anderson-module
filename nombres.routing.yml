@@ -69,11 +69,51 @@ nombres.animes:
   requirements:
     _permission: 'access content'
 
-nombres.animes_getById:
-  path: '/animes/{id}'
+nombres.animes_info:
+  path: '/animes}/{id}/{name'
   defaults:
     _controller: '\Drupal\nombres\Controller\AnimesController::getById'
     _title: 'Animes'
   requirements:
     _permission: 'access content'
 
+nombres.animes_admin:
+  path: '/animes/admin'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\AnimesController::admin'
+    _title: 'Admin'
+  requirements:
+    _permission: 'access content'
+
+nombres.animes_admin_ver:
+  path: '/animes/admin/{id}/{name}'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\AnimesController::adminVer'
+    _title: 'Admin detalles'
+  requirements:
+    _permission: 'access content'
+
+nombres.animes_admin_eliminar:
+  path: '/animes/admin/{id}/eliminar'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\AnimesController::adminEliminar'
+    _title: 'Admin detalles'
+  requirements:
+    _permission: 'access content'
+
+
+nombres.entidades:
+  path: '/entidades'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\EntidadesController::test'
+    _title: 'Articulos'
+  requirements:
+    _permission: 'access content'
+
+nombres.entidades_agregar:
+  path: '/entidades/agregar'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\EntidadesController::add'
+    _title: 'Agregar entidad'
+  requirements:
+    _permission: 'access content'
