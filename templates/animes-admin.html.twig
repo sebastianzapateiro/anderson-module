@@ -1,0 +1,83 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+<div
+	class="container px-4 my-4">
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+		Agregar un nuevo anime
+	</button>
+
+</div>
+
+
+<nav>
+	<div class="nav nav-tabs" id="nav-tab" role="tablist">
+		<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Animes</button>
+		<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Lista</button>
+	</div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+
+		<div class="row gx-2">
+			{% for item in data %}
+
+
+				<div class="col-md-3 col-lg-2 ">
+					<a href='/animes/{{ item.id }}/{{ item.nombre|replace({' ': "-"}) }}'>
+
+						<img src="{{ item.cover }}" class="img-fluid" alt="{{ item.nombre }}">
+						<div class="card-body">
+							<h5 class="card-title">{{ item.nombre }}</h5>
+							<p class="card-text">{{ item.descripcion }}</p>
+						</div>
+					</a>
+				</div>
+
+			{% endfor %}
+
+		</div>
+	</div>
+	<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+		{{ table }}
+	</div>
+</div>
+
+
+<div class="container"></div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" style='z-index: 21;' data-bs-keyboard="false" tabindex="-100" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body text-dark">
+				{{ form }}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+					{# <button type="button" class="btn btn-primary">Understood</button> #}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+
+	<style>
+
+		.modal-backdrop.fade.show {
+			z-index: 20;
+		}
+
+		.modal-backdrop.fade.show {
+			display: none;
+		}
+	</style>
