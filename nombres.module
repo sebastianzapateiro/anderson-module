@@ -1,9 +1,13 @@
 <?php
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+
 /**
  * Implements hook_theme().
  */
 function nombres_theme($existing, $type, $theme, $path) {
+
   return [
     'listar_nombres' => [
       'variables' => [
@@ -54,3 +58,48 @@ function nombres_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
+
+
+function nombres_node_delete(Drupal\Core\Entity\EntityInterface $entity) {
+
+  switch ($entity->getType()) {
+    case 'article':
+      $nodeStorage = \Drupal::entityTypeManager()->getStorage('node');
+
+
+      $ids = $nodeStorage->getQuery()
+        ->condition('type', 'proyectos')
+        ->condition('field_article_id', $entity->id())
+        ->accessCheck(FALSE)
+        ->execute();
+
+
+
+      $entities = $nodeStorage->loadMultiple($ids);
+      $nodeStorage->delete($entities);
+
+      \Drupal::messenger()->addMessage('Todas las entidades relacionadas han sido eliminadas');
+
+      break;
+    case 'proyectos':
+      break;
+  }
+
+}
+
+
+
+function nombres_preprocess_node(&$variables) {
+
+  $node = $variables['node'];
+  $content = $variables['content'];
+
+  switch ($node->getType()){
+    case 'article':
+
+//      dpm('Article preprocess');
+
+      break;
+  }
+}
+

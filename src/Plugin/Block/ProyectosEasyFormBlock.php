@@ -9,14 +9,14 @@ use Drupal\Core\Block\BlockBase;
  * Provides a 'servicios' Block.
  *
  * @Block(
- *   id = "Bloque de formulario de Proyectos",
- *   admin_label = @Translation("Bloque de formulario de Proyectos"),
+ *   id = "Bloque de formulario de Proyectos simple",
+ *   admin_label = @Translation("Bloque de formulario de Proyectos simple"),
  *   category = @Translation("Bloques de formularios custom"),
  * )
  */
 
 
-class ProyectosFormBlock extends BlockBase
+class ProyectosEasyFormBlock extends BlockBase
 {
 
   /**
@@ -33,23 +33,19 @@ class ProyectosFormBlock extends BlockBase
    * @see \Drupal\block\BlockViewBuilder
    */
   public function build(){
-    $values = array('type' => 'proyectos');
 
-    try {
-      $node = \Drupal::entityTypeManager()
-        ->getStorage('node')
-        ->create($values);
-    } catch (InvalidPluginDefinitionException $e) {
+    $nid = '';
 
-    } catch (PluginNotFoundException $e) {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof \Drupal\node\NodeInterface) {
+      // You can get nid and anything else you need from the node object.
+      $nid = $node->id();
+
+//      dpm($nid, 'get current node iD');
     }
 
-    $form = \Drupal::entityTypeManager()
-      ->getFormObject('node', 'default')
-      ->setEntity($node);
-    $formulario = \Drupal::formBuilder()->getForm($form);
 
-//    dpm($formulario);
+    $formulario = \Drupal::formBuilder()->getForm('\Drupal\nombres\Form\ProyectosEasyForm',$nid);
 
     $markup = ['#markup' => $this->t('test'),];
     $build[] = $formulario;

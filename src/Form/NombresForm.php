@@ -89,6 +89,13 @@ class NombresForm extends FormBase
       '#value' => $values ? $values[0]['id'] : '',
     );
 
+    $form['description'] = [
+      '#type' => 'text_format',
+      '#format' => 'full_html',
+      '#title' => $this->t('Description'),
+      '#default_value' => '',
+    ];
+
     return $form;
   }
 

@@ -9,14 +9,14 @@ use Drupal\Core\Block\BlockBase;
  * Provides a 'servicios' Block.
  *
  * @Block(
- *   id = "Bloque de formulario de articulo",
- *   admin_label = @Translation("Bloque de formulario de articulo"),
+ *   id = "Bloque de formulario de Proyectos",
+ *   admin_label = @Translation("Bloque de formulario de Proyectos"),
  *   category = @Translation("Bloques de formularios custom"),
  * )
  */
 
 
-class ArticleFormBlock extends BlockBase
+class ProyectosFormBlock extends BlockBase
 {
 
   /**
@@ -33,7 +33,7 @@ class ArticleFormBlock extends BlockBase
    * @see \Drupal\block\BlockViewBuilder
    */
   public function build(){
-    $values = array('type' => 'article');
+    $values = array('type' => 'proyectos');
 
     try {
       $node = \Drupal::entityTypeManager()
@@ -49,6 +49,7 @@ class ArticleFormBlock extends BlockBase
       ->setEntity($node);
     $formulario = \Drupal::formBuilder()->getForm($form);
 
+//    dpm($formulario);
 
     $markup = ['#markup' => $this->t('test'),];
     $build[] = $formulario;

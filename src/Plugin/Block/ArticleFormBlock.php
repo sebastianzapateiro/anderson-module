@@ -1,20 +1,22 @@
 <?php
 
-namespace Drupal\my_module\Plugin\Block;
+namespace Drupal\nombres\Plugin\Block;
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Block\BlockBase;
 
 /**
  * Provides a 'servicios' Block.
  *
  * @Block(
- *   id = "Servicios Block",
- *   admin_label = @Translation("Servicios Block"),
- *   category = @Translation("Servicios Block"),
+ *   id = "Bloque de formulario de articulo",
+ *   admin_label = @Translation("Bloque de formulario de articulo"),
+ *   category = @Translation("Bloques de formularios custom"),
  * )
  */
 
 
-class ServiciosBlock extends BlockBase
+class ArticleFormBlock extends BlockBase
 {
 
   /**
@@ -31,14 +33,26 @@ class ServiciosBlock extends BlockBase
    * @see \Drupal\block\BlockViewBuilder
    */
   public function build(){
-    $formulario = \Drupal::formBuilder()->getForm('\Drupal\my_module\Form\MyModuleForm');
+    $values = array('type' => 'article');
+
+    try {
+      $node = \Drupal::entityTypeManager()
+        ->getStorage('node')
+        ->create($values);
+    } catch (InvalidPluginDefinitionException $e) {
+
+    } catch (PluginNotFoundException $e) {
+    }
+
+    $form = \Drupal::entityTypeManager()
+      ->getFormObject('node', 'default')
+      ->setEntity($node);
+    $formulario = \Drupal::formBuilder()->getForm($form);
 
 
-
-    $markup = ['#markup' => $this->t('Este es el markup de mi bloque personalizado'),];
-
-    $build[] = $markup;
+    $markup = ['#markup' => $this->t('test'),];
     $build[] = $formulario;
+    $build[] = $markup;
     return $build;
   }
 }

@@ -39,6 +39,32 @@ function nombres_schema()
     'primary key' => ['id'],
   ];
 
+  $schema['capitulos'] = [
+    'description' => 'Tabla para el registro de los capitulos',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'anime_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'nombre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'descripcion' => [
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
 
 
   $schema['nombres'] = [

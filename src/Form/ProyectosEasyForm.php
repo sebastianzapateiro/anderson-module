@@ -3,107 +3,51 @@
 namespace Drupal\nombres\Form;
 
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\nombres\Services\Animesdb;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class AnimesForm extends FormBase
+class ProyectosEasyForm extends FormBase
 {
-
-
-  protected Animesdb $animesdb;
-
-
-  public function __construct(Animesdb $animesdb)
-  {
-    $this->animesdb = $animesdb;
-  }
-
-
-  public static function create(ContainerInterface $container): AnimesForm|static
-  {
-    return new static(
-      $container->get('nombres.animes')
-    );
-  }
 
 
   public function getFormId(): string
   {
-    return 'animes_form';
+    return 'proyectos_easy_form';
   }
 
 
   public function buildForm(array $form, FormStateInterface $form_state, $data = []): array
   {
 
-
-    $form['portada'] = array(
-      '#type' => 'media_library',
-      '#allowed_bundles' => ['image'],
-      '#name' => 'custom_content_block_portada',
-      '#title' => t('Portada'),
-      '#size' => 40,
-      '#required' => TRUE,
-      '#default_value' => $data ? $data[0]->portada : '',
-      '#description' => t('La portada debe ser en formato png, jpg.'),
-      '#upload_location' => 'public://portada',
-      '#upload_validators' => array(
-        'file_validate_extensions' => array('png jpg'),
-
-      ),
-      '#attributes' => array('class' => array('mb-3')),
-    );
-
-    $form['cover'] = array(
-      // '#type' => 'managed_file',
-      '#type' => 'media_library',
-      '#allowed_bundles' => ['image'],
-      '#name' => 'custom_content_block_cover',
-      '#title' => t('Cover'),
-      '#size' => 40,
-      '#required' => TRUE,
-      '#default_value' => $data ? $data[0]->cover : '',
-      '#description' => t('La imagen cover o caratula debe ser en formato png, jpg.'),
-      '#upload_location' => 'public://cover',
-      '#upload_validators' => array(
-        'file_validate_extensions' => array('png jpg'),
-      ),
-      '#attributes' => array('class' => array('mb-3')),
-    );
+//    dpm($data, 'data from form');
 
     $form['nombre'] = array(
       '#type' => 'textfield',
       '#title' => $this
         ->t('Nombre'),
       '#required' => TRUE,
-      '#default_value' => $data ? $data[0]->nombre : '',
+      '#default_value' => '',
       '#attributes' => array('class' => array('mb-3')),
     );
-
-
-    $form['descripcion'] = array(
-      '#type' => 'textarea',
-      '#title' => $this
-        ->t('Description'),
-      '#required' => TRUE,
-      '#default_value' => $data ? $data[0]->descripcion : '',
-      '#attributes' => array('class' => array('mb-3')),
-    );
-
 
     $form['actions'] = array('#type' => 'actions');
     $form['actions']['submit'] = array(
       '#type' => 'submit',
-      '#value' => t($data ? 'Actualizar' : 'Agregar'),
+      '#value' => 'Agregar',
     );
 
     $form['id'] = array(
       '#type' => 'hidden',
-      '#value' => $data ? $data[0]->id : '',
+      '#value' => $data ? $data : '',
     );
 
 
@@ -122,32 +66,25 @@ class AnimesForm extends FormBase
   {
 
 
-    $anime = [
-      'nombre' => $form_state->getValue('nombre'),
-      'descripcion' => $form_state->getValue('descripcion'),
-      // 'portada' => $this->getUri($form_state->getValue('portada')),
-      // 'cover' => $this->getUri($form_state->getValue('cover')),
-//      'portada' => $this->getUri($array[] = [$form_state->getValue('portada')]),
-//      'cover' => $this->getUri($array[] = [$form_state->getValue('cover')]),
-      'portada' => $form_state->getValue('portada'),
-      'cover' => $form_state->getValue('cover'),
-    ];
+    $nombre = $form_state->getValue('nombre');
 
+    $node = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->create([
+        'type' => 'proyectos',
+        'title' => $nombre,
+        'field_article_id' => $form_state->getValue('id'),
+      ]);
 
-    if ($form_state->getValue('op') == 'Agregar') {
+    $node->save();
 
-      $data = $this->animesdb->add($anime);
+    $nid = $node->id();
 
-      // notification
-      \Drupal::messenger()->addMessage('Se ha agregado correctamente el registro');
-    } else {
+    \Drupal::messenger()->addMessage("Se ha agregado correctamente la entidad $nombre");
 
-      $id = $form_state->getValue('id');
+//    $form_state->setRedirect('entity.node.canonical', ['node' => $nid]);
 
-      $data = $this->animesdb->update($id, $anime);
-
-      \Drupal::messenger()->addMessage('Se ha actualizado correctamente');
-    }
+dpm($nid, 'Las node created by custom form');
 
 
   }
