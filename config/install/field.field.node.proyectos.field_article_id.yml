@@ -1,0 +1,32 @@
+# uuid: f4c1ae85-d00f-476e-bc45-3829f034694c
+langcode: es
+status: true
+dependencies:
+  config:
+    - node.type.article
+    - node.type.proyectos
+    - field.storage.node.field_article_id
+  enforced:
+    module:
+      - nombres
+id: node.proyectos.field_article_id
+field_name: field_article_id
+entity_type: node
+bundle: proyectos
+label: Article
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      article: article
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

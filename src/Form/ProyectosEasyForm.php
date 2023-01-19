@@ -74,17 +74,24 @@ class ProyectosEasyForm extends FormBase
         'type' => 'proyectos',
         'title' => $nombre,
         'field_article_id' => $form_state->getValue('id'),
+        'status' => 0,
       ]);
+
+//    dpm($node);
 
     $node->save();
 
     $nid = $node->id();
 
-    \Drupal::messenger()->addMessage("Se ha agregado correctamente la entidad $nombre");
+    \Drupal::messenger()->addMessage("Se ha agregado correctamente la entidad $nombre en modo borrador");
+    \Drupal::messenger()->addMessage("Se recomienda encarecidamente actualizar los campos y publicar");
 
 //    $form_state->setRedirect('entity.node.canonical', ['node' => $nid]);
 
-dpm($nid, 'Las node created by custom form');
+
+    $form_state->setRedirectUrl(Url::fromUri('internal:' . "/node/$nid/edit"));
+
+//dpm($nid, 'Las node created by custom form');
 
 
   }
