@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+
+<div class="container ">
+
+  <div class="row gx-3">
+    <div class="col-lg-4">
+      <div class="bg-primary text-white rounded-5 p-4 h-100">
+        <h3 class="fw-bold fs-2">Portal independientes</h3>
+        <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet elit, eget
+          tincidunt nibh pulvinar a. Quisque velit nisi, pretium ut lacinia in, elementum id enim. </p>
+        <!-- <i class="bi bi-cash-stack fs-1"></i> -->
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+      <div class="bg-white rounded-5 p-3">
+        <div class="d-flex">
+          <i class="bi bi-people fs-1"></i>
+          <a class="ms-auto" href="/node/add/cliente">
+            <i class=" bi bi-plus fs-1"></i>
+          </a>
+        </div>
+        <h3 class="fw-bold fs-2">65</h3>
+        <a href="/clientes">
+          <p class="small">Clientes</p>
+        </a>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+      <div class="bg-white rounded-5 p-3">
+        <div class="d-flex">
+          <i class="bi bi-motherboard fs-1"></i>
+          <i class="ms-auto bi bi-plus fs-1"></i>
+        </div>
+        <h3 class="fw-bold fs-2">12</h3>
+        <a href="/servicios">
+          <p class="small">Servicios</p>
+        </a>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+      <div class="bg-white rounded-5 p-3">
+        <i class="bi bi-cash-stack fs-1"></i>
+        <h3 class="fw-bold fs-2">12</h3>
+        <p class="small">Servicios pendientes</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<section class="my-3 px-3">
+  <div class="col-10 p-3 bg-white rounded-5">
+    <div class="list-group list-group-flush w-auto">
+      {% for cliente in clientes %}
+
+
+        <a href="/node/{{ cliente.id }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+          <i class="bi bi-people fs-3"></i>
+          <div class="d-flex gap-2 w-100 justify-content-between">
+            <div>
+              <h6 class="mb-0">{{ cliente.title.value }}</h6>
+              <p class="mb-0 opacity-75">{{ cliente.body.value |striptags }}</p>
+            </div>
+            <small class="opacity-50 text-nowrap">{{ cliente.changed.value |date("m/d/Y")}}</small>
+          </div>
+        </a>
+
+      {% endfor %}
+
+
+
+    </div>
+  </div>
+</section>
+
+<section class="my-3 px-3">
+  <div class="col-md-10 p-3 bg-white rounded-5">
+
+
+
+
+  </div>
+</section>

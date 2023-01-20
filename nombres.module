@@ -56,6 +56,14 @@ function nombres_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'animes-ver',
     ],
+    'dashboard' => [
+      'variables' => [
+        'servicios' => NULL,
+        'clientes' => NULL,
+
+      ],
+      'template' => 'dashboard',
+    ],
   ];
 }
 
@@ -81,7 +89,23 @@ function nombres_node_delete(Drupal\Core\Entity\EntityInterface $entity) {
       \Drupal::messenger()->addMessage('Todas las entidades relacionadas han sido eliminadas');
 
       break;
-    case 'proyectos':
+
+    case 'cliente':
+      $nodeStorage = \Drupal::entityTypeManager()->getStorage('node');
+
+
+      $ids = $nodeStorage->getQuery()
+        ->condition('type', 'servicios')
+        ->condition('field_cliente', $entity->id())
+        ->accessCheck(FALSE)
+        ->execute();
+
+
+
+      $entities = $nodeStorage->loadMultiple($ids);
+      $nodeStorage->delete($entities);
+
+      \Drupal::messenger()->addMessage('Todas las entidades relacionadas han sido eliminadas');
       break;
   }
 
@@ -103,7 +127,7 @@ function nombres_preprocess_node(&$variables) {
         $acumulado = $acumulado + $abono->value;
       }
 
-      // % de mis abonos y el acumulado 
+      // % de mis abonos y el acumulado
       $porcentaje = ($acumulado / $node->field_va->value ) * 100 ;
 
       // deuda restante

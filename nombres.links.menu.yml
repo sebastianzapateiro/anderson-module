@@ -1,13 +1,21 @@
-nombres.cargar:
-  title: 'Nombres'
+#nombres.cargar:
+#  title: 'Nombres'
+#  description: 'This is te menu link'
+#  route_name: nombres.cargar
+#  menu_name: main
+#  weight: 100
+#
+#nombres.animes:
+#  title: 'Animes'
+#  description: 'This is te menu link'
+#  route_name: nombres.animes
+#  menu_name: main
+#  weight: 101
+
+
+nombres.dashboard:
+  title: 'Dashboard'
   description: 'This is te menu link'
-  route_name: nombres.cargar
+  route_name: nombres.dashboard
   menu_name: main
   weight: 100
-
-nombres.animes:
-  title: 'Animes'
-  description: 'This is te menu link'
-  route_name: nombres.animes
-  menu_name: main
-  weight: 101

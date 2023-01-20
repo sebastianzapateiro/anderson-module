@@ -117,3 +117,12 @@ nombres.entidades_agregar:
     _title: 'Agregar entidad'
   requirements:
     _permission: 'access content'
+
+
+nombres.dashboard:
+  path: '/dashboard'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\PortalController::dashboard'
+    _title: 'Dashboard'
+  requirements:
+    _permission: 'access content'
