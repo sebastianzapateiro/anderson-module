@@ -95,9 +95,24 @@ function nombres_preprocess_node(&$variables) {
   $content = $variables['content'];
 
   switch ($node->getType()){
-    case 'article':
+    case 'servicios':
 
-//      dpm('Article preprocess');
+      //calcular el total de mi campo multiple
+      $acumulado = 0;
+      foreach($node->field_abonos as $abono){
+        $acumulado = $acumulado + $abono->value;
+      }
+
+      // % de mis abonos y el acumulado 
+      $porcentaje = ($acumulado / $node->field_va->value ) * 100 ;
+
+      // deuda restante
+      $restante = $node->field_va->value - $acumulado;
+
+      $variables['content']['field_acumulado'] = $acumulado;
+      $variables['content']['field_restante'] = intval($restante);
+      $variables['content']['field_porcentaje'] = intval($porcentaje);
+
 
       break;
   }
