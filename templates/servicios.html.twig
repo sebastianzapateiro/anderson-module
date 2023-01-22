@@ -1,0 +1,23 @@
+<!-- <section class="my-3 px-3">
+
+</section>
+
+
+<section class="my-3 px-3">
+	
+</section> -->
+
+<p><a class="use-ajax button button--primary" data-dialog-type="modal" href="/node/add/servicios" data-dialog-options='{"width":"80%"}'>Agregar nuevo servicio</a></p>
+
+<div class="row">
+	<div class="col-md-4 col-lg-3">
+		<div class=" p-3 bg-white rounded-5">
+			{{ drupal_block('views_exposed_filter_block:servicios-servicios_block') }}
+		</div>
+	</div>
+	<div class="col">
+		<div class="p-3 bg-white rounded-5">
+			{{ drupal_block('views_block:servicios-servicios_block') }}
+		</div>
+	</div>
+</div>

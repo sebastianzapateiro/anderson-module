@@ -126,3 +126,12 @@ nombres.dashboard:
     _title: 'Dashboard'
   requirements:
     _permission: 'access content'
+
+
+nombres.servicios:
+  path: '/servicios'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\ServiciosController::servicios'
+    _title: 'Servicios'
+  requirements:
+    _permission: 'access content'

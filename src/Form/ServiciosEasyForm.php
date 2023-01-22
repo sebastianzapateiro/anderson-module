@@ -15,13 +15,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ProyectosEasyForm extends FormBase
+class ServiciosEasyForm extends FormBase
 {
 
 
   public function getFormId(): string
   {
-    return 'proyectos_easy_form';
+    return 'servicios_easy_form';
   }
 
 
@@ -42,7 +42,7 @@ class ProyectosEasyForm extends FormBase
     $form['actions'] = array('#type' => 'actions');
     $form['actions']['submit'] = array(
       '#type' => 'submit',
-      '#value' => 'Agregar',
+      '#value' => 'Agregar servicio',
     );
 
     $form['id'] = array(
@@ -71,9 +71,9 @@ class ProyectosEasyForm extends FormBase
     $node = \Drupal::entityTypeManager()
       ->getStorage('node')
       ->create([
-        'type' => 'proyectos',
+        'type' => 'servicios',
         'title' => $nombre,
-        'field_article_id' => $form_state->getValue('id'),
+        'field_cliente' => $form_state->getValue('id'),
         'status' => 0,
       ]);
 

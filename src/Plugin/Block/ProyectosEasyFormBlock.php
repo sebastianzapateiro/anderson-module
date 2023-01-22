@@ -47,9 +47,7 @@ class ProyectosEasyFormBlock extends BlockBase
 
     $formulario = \Drupal::formBuilder()->getForm('\Drupal\nombres\Form\ProyectosEasyForm',$nid);
 
-    $markup = ['#markup' => $this->t('test'),];
     $build[] = $formulario;
-    $build[] = $markup;
     return $build;
   }
 }

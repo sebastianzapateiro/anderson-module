@@ -9,14 +9,14 @@ use Drupal\Core\Block\BlockBase;
  * Provides a 'servicios' Block.
  *
  * @Block(
- *   id = "Bloque de formulario de Proyectos simple",
+ *   id = "servicios_easy_form",
  *   admin_label = @Translation("Bloque de formulario de Proyectos simple"),
  *   category = @Translation("Bloques de formularios custom"),
  * )
  */
 
 
-class ProyectosEasyFormBlock extends BlockBase
+class ServiciosEasyFormBlock extends BlockBase
 {
 
   /**
@@ -45,7 +45,7 @@ class ProyectosEasyFormBlock extends BlockBase
     }
 
 
-    $formulario = \Drupal::formBuilder()->getForm('\Drupal\nombres\Form\ProyectosEasyForm',$nid);
+    $formulario = \Drupal::formBuilder()->getForm('\Drupal\nombres\Form\ServiciosEasyForm',$nid);
 
     $build[] = $formulario;
     return $build;
