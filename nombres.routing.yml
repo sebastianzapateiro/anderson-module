@@ -135,3 +135,12 @@ nombres.servicios:
     _title: 'Servicios'
   requirements:
     _permission: 'access content'
+
+
+nombres.clientes:
+  path: '/clientes'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\PortalController::clientes'
+    _title: 'Servicios'
+  requirements:
+    _permission: 'access content'

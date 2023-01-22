@@ -60,6 +60,7 @@ function nombres_theme($existing, $type, $theme, $path) {
       'variables' => [
         'servicios' => NULL,
         'clientes' => NULL,
+        'paginador' => NULL,
 
       ],
       'template' => 'dashboard',
@@ -73,6 +74,16 @@ function nombres_theme($existing, $type, $theme, $path) {
 
       ],
       'template' => 'servicios',
+    ],
+    'clientes' => [
+      'variables' => [
+        'servicios' => NULL,
+        'clientes' => NULL,
+        'table' => NULL,
+        'view' => NULL,
+
+      ],
+      'template' => 'clientes',
     ],
   ];
 }
