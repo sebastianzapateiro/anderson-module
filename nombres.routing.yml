@@ -144,3 +144,13 @@ nombres.clientes:
     _title: 'Servicios'
   requirements:
     _permission: 'access content'
+
+
+nombres.profile:
+  path: '/perfil'
+  defaults:
+    _controller: '\Drupal\nombres\Controller\ProfileController::test'
+    _title: 'Perfil'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'

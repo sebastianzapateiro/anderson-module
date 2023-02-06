@@ -36,7 +36,7 @@ class ServiciosEasyForm extends FormBase
         ->t('Nombre'),
       '#required' => TRUE,
       '#default_value' => '',
-      '#attributes' => array('class' => array('mb-3')),
+      '#attributes' => array('class' => array('mb-3 border-0 border-bottom bg-light')),
     );
 
     $form['actions'] = array('#type' => 'actions');
@@ -74,7 +74,9 @@ class ServiciosEasyForm extends FormBase
         'type' => 'servicios',
         'title' => $nombre,
         'field_cliente' => $form_state->getValue('id'),
-        'status' => 0,
+        'status' => 1,
+        'field_abonos' => 0,
+        'field_va' => 0,
       ]);
 
 //    dpm($node);
@@ -89,7 +91,7 @@ class ServiciosEasyForm extends FormBase
 //    $form_state->setRedirect('entity.node.canonical', ['node' => $nid]);
 
 
-    $form_state->setRedirectUrl(Url::fromUri('internal:' . "/node/$nid/edit"));
+    // $form_state->setRedirectUrl(Url::fromUri('internal:' . "/node/$nid/edit"));
 
 //dpm($nid, 'Las node created by custom form');
 

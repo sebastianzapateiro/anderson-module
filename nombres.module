@@ -85,6 +85,17 @@ function nombres_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'clientes',
     ],
+    'perfil' => [
+      'variables' => [
+        'servicios' => NULL,
+        'form' => NULL,
+        'clientes' => NULL,
+        'table' => NULL,
+        'view' => NULL,
+
+      ],
+      'template' => 'perfil',
+    ],
   ];
 }
 
